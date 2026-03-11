@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[NOME] Advocacia | Excelência Jurídica em Guarulhos</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Modo Claro (Default) */
+            --bg-color: #f5f0e8;
+            --text-color: #1a2550;
+            --accent-gold: #c9a84c;
+            --nav-bg: rgba(245, 240, 232, 0.9);
+            --card-bg: #ffffff;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0a0f1e;
+            --text-color: #e0e0e0;
+            --accent-gold: #c9a84c;
+            --nav-bg: rgba(10, 15, 30, 0.9);
+            --card-bg: #141b2d;
+            --shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: var(--transition);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .brand {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- Custom Cursor --- */
+        #custom-cursor {
+            width: 25px;
+            height: 25px;
+            border: 2px solid var(--accent-gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            display: none;
+        }
+
+        @media (min-width: 1024px) { #custom-cursor { display: block; } }
+
+        /* --- Navbar --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        nav.scrolled {
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            padding: 12px 8%;
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--accent-gold); }
+
+        .cta-nav {
+            background: var(--accent-gold);
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 0.8rem !important;
+        }
+
+        #theme-toggle {
+            cursor: pointer;
+            background: none;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 8%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            flex: 1;
+            z-index: 2;
+        }
+
+        .hero-visual {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .typewriter {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            height: 1.6rem;
+            margin-bottom: 40px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn-gold { background: var(--accent-gold); color: white; }
+        .btn-outline { border: 2px solid var(--text-color); color: var(--text-color); }
+        .btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+        /* --- Gavel Animation --- */
+        #gavel-svg {
+            width: 300px;
+            height: 300px;
+        }
+        .gavel-head {
+            transform-origin: 220px 220px;
+            animation: hit 2s infinite ease-in-out;
+        }
+        @keyframes hit {
+            0%, 100% { transform: rotate(0deg); }
+            40% { transform: rotate(-35deg); }
+            50% { transform: rotate(5deg); }
+            55% { transform: rotate(0deg); }
+        }
+
+        /* --- Floating Particles --- */
+        .particles {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .particle {
+            position: absolute;
+            color: var(--accent-gold);
+            opacity: 0.15;
+            font-size: 2rem;
+            animation: float-up 10s linear infinite;
+        }
+        @keyframes float-up {
+            from { transform: translateY(110vh) rotate(0deg); }
+            to { transform: translateY(-10vh) rotate(360deg); }
+        }
+
+        /* --- Stats Bar --- */
+        .stats {
+            background: var(--text-color);
+            color: var(--bg-color);
+            padding: 60px 8%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+        .stat-item h2 { font-size: 3rem; color: var(--accent-gold); margin-bottom: 5px; }
+
+        /* --- Sections General --- */
+        section { padding: 100px 8%; position: relative; }
+        .section-title { font-size: 2.5rem; margin-bottom: 50px; text-align: center; }
+        .section-title::after {
+            content: ''; display: block; width: 60px; height: 3px; 
+            background: var(--accent-gold); margin: 20px auto;
+        }
+
+        /* --- Scale Animation --- */
+        .scale-box { width: 100%; display: flex; justify-content: center; }
+        #scale-svg { width: 200px; }
+        .scale-arm {
+            transform-origin: center;
+            animation: oscillate 4s infinite ease-in-out;
+        }
+        @keyframes oscillate {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        /* --- Areas Grid --- */
+        .areas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .area-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .area-card i { font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 20px; display: block; }
+        .area-card h3 { margin-bottom: 15px; }
+        .area-card::before {
+            content: ''; position: absolute; left: -100%; bottom: 0;
+            width: 100%; height: 4px; background: var(--accent-gold);
+            transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .area-card:hover::before { left: 0; }
+        .area-card:hover { transform: translateY(-10px); }
+
+        /* --- Por Que Nos Escolher --- */
+        .choose-list { max-width: 800px; margin: 0 auto; }
+        .choose-item {
+            display: flex; gap: 20px; padding: 25px 0;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+            transition: 0.3s;
+        }
+        .choose-item:last-child { border: none; }
+        .choose-num { font-size: 2rem; font-family: 'Playfair Display'; color: var(--accent-gold); font-weight: 900; }
+
+        /* --- Testimonials --- */
+        .testimonials { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .test-card { background: var(--card-bg); padding: 30px; border-radius: 8px; box-shadow: var(--shadow); }
+        .stars { color: var(--accent-gold); margin-bottom: 15px; }
+        .user { display: flex; align-items: center; gap: 15px; margin-top: 20px; }
+        .avatar { width: 50px; height: 50px; background: var(--accent-gold); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+
+        /* --- Scroll Reveal --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s all ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- Final CTA --- */
+        .final-cta { background: var(--accent-gold); color: #1a2550; text-align: center; padding: 80px 8%; }
+        .final-cta h2 { font-size: 3rem; margin-bottom: 30px; }
+        .btn-dark { background: #1a2550; color: white; }
+
+        /* --- Footer --- */
+        footer { background: #070a14; color: white; padding: 80px 8% 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 50px; margin-bottom: 50px; }
+        .footer-col h4 { color: var(--accent-gold); margin-bottom: 25px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; opacity: 0.7; }
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); opacity: 0.5; font-size: 0.8rem; }
+
+        /* --- Floating WhatsApp --- */
+        .whatsapp-float {
+            position: fixed; bottom: 30px; right: 30px;
+            background: #25d366; color: white;
+            width: 60px; height: 60px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000; animation: pulse 2s infinite; text-decoration: none;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        /* --- Mobile Resp --- */
+        @media (max-width: 900px) {
+            .hero { flex-direction: column; text-align: center; justify-content: center; padding-top: 100px; }
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .hero-btns { justify-content: center; flex-wrap: wrap; }
+            #gavel-svg { width: 200px; height: 200px; }
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+    <div id="custom-cursor"></div>
+
+    <nav id="navbar">
+        <a href="#" class="brand logo">[NOME] <span style="color:var(--text-color)">Advocacia</span></a>
+        <div class="nav-links">
+            <a href="#sobre">Sobre</a>
+            <a href="#atuacao">Atuação</a>
+            <a href="#contato">Contato</a>
+            <button id="theme-toggle">Trocar Tema</button>
+            <a href="https://wa.me/5511942201872" class="btn cta-nav">Falar com Advogado</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="particles" id="particles-container"></div>
+        
+        <div class="hero-content">
+            <h1 class="reveal">Justiça e Compromisso em <span style="color:var(--accent-gold)">Guarulhos</span></h1>
+            <div class="typewriter" id="typewriter"></div>
+            <div class="hero-btns reveal">
+                <a href="https://wa.me/5511942201872" class="btn btn-gold">Atendimento Imediato</a>
+                <a href="#sobre" class="btn btn-outline">Conhecer Escritório</a>
+            </div>
+        </div>
+
+        <div class="hero-visual reveal">
+            <svg id="gavel-svg" viewBox="0 0 400 400">
+                <rect x="100" y="320" width="200" height="30" rx="5" fill="#c9a84c" />
+                <g class="gavel-head">
+                    <rect x="180" y="100" width="40" height="150" fill="#634e2a" />
+                    <rect x="120" y="80" width="160" height="60" rx="10" fill="#8b6b32" />
+                </g>
+            </svg>
+        </div>
+    </section>
+
+    <div class="stats">
+        <div class="stat-item reveal">
+            <h2 class="counter" data-target="15">0</h2>
+            <p>Anos de Experiência</p>
+        </div>
+        <div class="stat-item reveal">
+            <h2 class="counter" data-target="2500">0</h2>
+            <p>Clientes Atendidos</p>
+        </div>
+        <div class="stat-item reveal">
+            <h2 class="counter" data-target="98">0</h2>
+            <p>% de Satisfação</p>
+        </div>
+        <div class="stat-item reveal">
+            <h2 class="counter" data-target="1800">0</h2>
+            <p>Casos Concluídos</p>
+        </div>
+    </div>
+
+    <section id="sobre" style="background: var(--card-bg);">
+        <div class="areas-grid" style="grid-template-columns: 1fr 1.2fr; align-items: center;">
+            <div class="scale-box reveal">
+                <svg id="scale-svg" viewBox="0 0 200 200">
+                    <line x1="100" y1="40" x2="100" y2="160" stroke="#c9a84c" stroke-width="6"/>
+                    <rect x="70" y="160" width="60" height="10" fill="#c9a84c"/>
+                    <g class="scale-arm">
+                        <line x1="40" y1="70" x2="160" y2="70" stroke="#c9a84c" stroke-width="4"/>
+                        <path d="M40 70 L25 120 Q40 130 55 120 Z" fill="#c9a84c" opacity="0.8"/>
+                        <path d="M160 70 L145 120 Q160 130 175 120 Z" fill="#c9a84c" opacity="0.8"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="reveal">
+                <h2 class="section-title" style="text-align: left;">Tradição e Modernidade</h2>
+                <p>Com sede estratégica em Guarulhos, o escritório <strong>[NOME] Advocacia</strong> nasceu com a missão de oferecer soluções jurídicas personalizadas. Entendemos que cada caso é único e exige uma abordagem técnica rigorosa aliada à empatia humana.</p>
+                <br>
+                <p>Nossa equipe de especialistas está preparada para atuar em diversas instâncias, garantindo que seus direitos sejam preservados com a máxima eficiência e transparência.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="atuacao">
+        <h2 class="section-title reveal">Áreas de Especialidade</h2>
+        <div class="areas-grid">
+            <div class="area-card reveal">
+                <i>⚖</i>
+                <h3>Direito Trabalhista</h3>
+                <p>Defesa dos direitos do trabalhador e consultoria preventiva para empresas de todos os portes.</p>
+            </div>
+            <div class="area-card reveal">
+                <i>🏠</i>
+                <h3>Direito de Família</h3>
+                <p>Mediação de conflitos, divórcios, guarda e inventários com sensibilidade e sigilo absoluto.</p>
+            </div>
+            <div class="area-card reveal">
+                <i>🏦</i>
+                <h3>Direito Previdenciário</h3>
+                <p>Auxílio completo para aposentadorias, benefícios do INSS e revisões contratuais.</p>
+            </div>
+            <div class="area-card reveal">
+                <i>🛡️</i>
+                <h3>Direito Civil</h3>
+                <p>Indenizações, contratos, direitos do consumidor e responsabilidade civil em geral.</p>
+            </div>
+            <div class="area-card reveal">
+                <i>🏢</i>
+                <h3>Direito Imobiliário</h3>
+                <p>Segurança jurídica em transações de compra, venda, locação e regularização de imóveis.</p>
+            </div>
+            <div class="area-card reveal">
+                <i>⚖️</i>
+                <h3>Direito Criminal</h3>
+                <p>Defesa técnica especializada com acompanhamento em delegacias e tribunais.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="escolha" style="background: var(--card-bg);">
+        <h2 class="section-title reveal">Por que nos escolher?</h2>
+        <div class="choose-list">
+            <div class="choose-item reveal">
+                <span class="choose-num">01</span>
+                <div>
+                    <h3>Atendimento Humanizado</h3>
+                    <p>Você não é apenas um número de processo. Atendemos cada cliente com dedicação total.</p>
+                </div>
+            </div>
+            <div class="choose-item reveal">
+                <span class="choose-num">02</span>
+                <div>
+                    <h3>Localização Privilegiada</h3>
+                    <p>Fácil acesso no centro de Guarulhos para sua maior comodidade e agilidade.</p>
+                </div>
+            </div>
+            <div class="choose-item reveal">
+                <span class="choose-num">03</span>
+                <div>
+                    <h3>Transparência Total</h3>
+                    <p>Relatórios periódicos sobre o andamento do seu caso via WhatsApp ou e-mail.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="depoimentos">
+        <h2 class="section-title reveal">O que dizem nossos clientes</h2>
+        <div class="testimonials">
+            <div class="test-card reveal">
+                <div class="stars">★★★★★</div>
+                <p>"Excelente profissionalismo. Resolveram meu problema trabalhista em tempo recorde."</p>
+                <div class="user">
+                    <div class="avatar">RC</div>
+                    <span>Ricardo Camargo</span>
+                </div>
+            </div>
+            <div class="test-card reveal">
+                <div class="stars">★★★★★</div>
+                <p>"Atendimento impecável no meu processo de inventário. Recomendo a todos em Guarulhos."</p>
+                <div class="user">
+                    <div class="avatar">ML</div>
+                    <span>Maria Lucia</span>
+                </div>
+            </div>
+            <div class="test-card reveal">
+                <div class="stars">★★★★★</div>
+                <p>"Ética e competência definem o escritório. Transmitiram muita confiança desde a primeira reunião."</p>
+                <div class="user">
+                    <div class="avatar">JS</div>
+                    <span>João Santos</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="final-cta reveal">
+        <h2>Proteja seus direitos agora mesmo.</h2>
+        <p style="margin-bottom: 30px; font-size: 1.2rem;">Agende uma consulta jurídica com nossos especialistas.</p>
+        <a href="https://wa.me/5511942201872" class="btn btn-dark">Conversar via WhatsApp</a>
+    </div>
+
+    <footer id="contato">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 class="brand">[NOME] Advocacia</h4>
+                <p>Justiça com ética e determinação.</p>
+                <p style="margin-top:15px">OAB/SP: [00.000]</p>
+            </div>
+            <div class="footer-col">
+                <h4>Atuação</h4>
+                <ul>
+                    <li>Direito Civil</li>
+                    <li>Direito do Trabalho</li>
+                    <li>Direito de Família</li>
+                    <li>Direito Previdenciário</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contato</h4>
+                <ul>
+                    <li>📍 Rua Exemplo, 123 - Centro, Guarulhos - SP</li>
+                    <li>📞 (11) 94220-1872</li>
+                    <li>✉️ contato@[nome]advocacia.com.br</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 [NOME] Advocacia. Todos os direitos reservados. Desenvolvido para Excelência Jurídica.
+        </div>
+    </footer>
+
+    <a href="https://wa.me/5511942201872" class="whatsapp-float" target="_blank">
+        <svg viewBox="0 0 24 24" width="35" height="35" fill="currentColor"><path d="M12.031 6.172c-2.32 0-4.591 1.399-4.591 4.082 0 1.263.594 2.253 1.226 2.879l-1.198 3.51 3.811-1.167c.657.214 1.303.346 1.917.346 2.362 0 4.545-1.389 4.545-4.048 0-2.612-2.144-4.602-5.71-4.602zm.169 8.074c-.43 0-.817-.086-1.161-.256l-.233-.109-1.695.52.538-1.582-.135-.186c-.412-.568-.686-1.189-.686-2.024 0-2.256 1.832-3.327 3.755-3.327 2.935 0 4.562 1.589 4.562 3.742 0 2.202-1.722 3.122-3.945 3.122z"/></svg>
+    </a>
+
+    <script>
+        // --- Theme Toggle ---
+        const themeBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', savedTheme);
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // --- Custom Cursor ---
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // --- Navbar Scroll Effect ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        // --- Typewriter Effect ---
+        const txtElement = document.getElementById('typewriter');
+        const words = ["Direito Trabalhista", "Direito de Família", "Direito Previdenciário", "Soluções Jurídicas"];
+        let txtCount = 0;
+        let txtIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const current = txtCount % words.length;
+            const fullTxt = words[current];
+            
+            if (isDeleting) txtIndex--;
+            else txtIndex++;
+
+            txtElement.innerHTML = `<span>${fullTxt.substring(0, txtIndex)}</span>`;
+
+            let typeSpeed = 150;
+            if (isDeleting) typeSpeed /= 2;
+
+            if (!isDeleting && txtIndex === fullTxt.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && txtIndex === 0) {
+                isDeleting = false;
+                txtCount++;
+                typeSpeed = 500;
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+        type();
+
+        // --- Law Particles ---
+        const container = id => document.getElementById(id);
+        const symbols = ['§', '⚖', '¶', 'Δ'];
+        function createParticle() {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            container('particles-container').appendChild(p);
+            setTimeout(() => p.remove(), 10000);
+        }
+        setInterval(createParticle, 1000);
+
+        // --- Reveal on Scroll ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    if (entry.target.classList.contains('counter')) startCounter(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal, .counter').forEach(el => observer.observe(el));
+
+        // --- Counter Animation ---
+        function startCounter(el) {
+            const target = +el.getAttribute('data-target');
+            let count = 0;
+            const speed = target / 50;
+            const update = () => {
+                count += speed;
+                if (count < target) {
+                    el.innerText = Math.ceil(count) + (target === 98 ? '%' : '+');
+                    setTimeout(update, 30);
+                } else {
+                    el.innerText = target + (target === 98 ? '%' : '+');
+                }
+            };
+            update();
+        }
+
+        // --- Parallax Hero ---
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth - e.pageX * 2) / 100;
+            const y = (window.innerHeight - e.pageY * 2) / 100;
+            document.querySelector('.hero-visual').style.transform = `translateX(${x}px) translateY(${y}px)`;
+        });
+
+    </script>
+</body>
+</html>
